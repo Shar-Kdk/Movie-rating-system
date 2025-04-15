@@ -5,14 +5,12 @@ public class Review {
     private int reviewId;
     private String comment;
     private Date reviewedAt;
-    private boolean isSpoiler;
-    private int movieId;
+    private int movieId; // foreign key
 
     public Review(int reviewId, String comment, Date reviewedAt, boolean isSpoiler, int movieId) {
         this.reviewId = reviewId;
         this.comment = comment;
         this.reviewedAt = reviewedAt;
-        this.isSpoiler = isSpoiler;
         this.movieId = movieId;
     }
 
@@ -38,14 +36,6 @@ public class Review {
 
     public void setReviewedAt(Date reviewedAt) {
         this.reviewedAt = reviewedAt;
-    }
-
-    public boolean isSpoiler() {
-        return isSpoiler;
-    }
-
-    public void setSpoiler(boolean spoiler) {
-        isSpoiler = spoiler;
     }
 
     public int getMovieId() {

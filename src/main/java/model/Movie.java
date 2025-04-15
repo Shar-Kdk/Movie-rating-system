@@ -5,16 +5,14 @@ public class Movie {
     private int movieId;
     private String title;
     private Date releaseDate;
-    private int duration; // in minutes
-    private String language;
+    private int duration; // in minute
     private String movieImg;
 
-    public Movie(int movieId, String title, Date releaseDate, int duration, String language, String movieImg) {
+    public Movie(int movieId, String title, Date releaseDate, int duration, String movieImg) {
         this.movieId = movieId;
         this.title = title;
         this.releaseDate = releaseDate;
         this.duration = duration;
-        this.language = language;
         this.movieImg = movieImg;
     }
 
@@ -48,14 +46,6 @@ public class Movie {
 
     public void setDuration(int duration) {
         this.duration = duration;
-    }
-
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
     }
 
     public String getMovieImg() {
