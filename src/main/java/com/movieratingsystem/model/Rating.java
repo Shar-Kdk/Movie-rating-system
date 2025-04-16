@@ -1,50 +1,18 @@
+package com.movieratingsystem.model;
 
-import java.security.Timestamp;
+import java.util.Date;
 
 public class Rating {
-    private int ratingId;      // Primary key
-    private double score;      // Rating score
-    private Timestamp ratedAt; // When the rating was submitted
-    private int movieId;       // Foreign key to Movie
+    private int ratingId;
+    private double score;
+    private Date ratingDate;
+    private Movie movie;
 
-    public Rating(int ratingId, double score, Timestamp ratedAt, int movieId, int userId) {
+    public Rating(int ratingId, double score, Date ratingDate, Movie movie) {
         this.ratingId = ratingId;
         this.score = score;
-        this.ratedAt = ratedAt;
-        this.movieId = movieId;
-        this.userId = userId;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getMovieId() {
-        return movieId;
-    }
-
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
-    }
-
-    public Timestamp getRatedAt() {
-        return ratedAt;
-    }
-
-    public void setRatedAt(Timestamp ratedAt) {
-        this.ratedAt = ratedAt;
-    }
-
-    public double getScore() {
-        return score;
-    }
-
-    public void setScore(double score) {
-        this.score = score;
+        this.ratingDate = ratingDate;
+        this.movie = movie;
     }
 
     public int getRatingId() {
@@ -55,5 +23,27 @@ public class Rating {
         this.ratingId = ratingId;
     }
 
-    private int userId;        // Foreign key to User
+    public double getScore() {
+        return score;
+    }
+
+    public void setScore(double score) {
+        this.score = score;
+    }
+
+    public Date getRatingDate() {
+        return ratingDate;
+    }
+
+    public void setRatingDate(Date ratingDate) {
+        this.ratingDate = ratingDate;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
+    }
 }

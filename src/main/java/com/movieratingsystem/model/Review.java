@@ -1,17 +1,21 @@
+package com.movieratingsystem.model;
+
 import java.util.Date;
 
 public class Review {
 
     private int reviewId;
     private String comment;
-    private Date reviewedAt;
-    private int movieId; // foreign key
+    private Date reviewDate;
+    private User user;
+    private Movie movie;
 
-    public Review(int reviewId, String comment, Date reviewedAt, boolean isSpoiler, int movieId) {
+    public Review(int reviewId, String comment, Date reviewDate, User user, Movie movie) {
         this.reviewId = reviewId;
         this.comment = comment;
-        this.reviewedAt = reviewedAt;
-        this.movieId = movieId;
+        this.reviewDate = reviewDate;
+        this.user = user;
+        this.movie = movie;
     }
 
     public int getReviewId() {
@@ -30,19 +34,27 @@ public class Review {
         this.comment = comment;
     }
 
-    public Date getReviewedAt() {
-        return reviewedAt;
+    public Date getReviewDate() {
+        return reviewDate;
     }
 
-    public void setReviewedAt(Date reviewedAt) {
-        this.reviewedAt = reviewedAt;
+    public void setReviewDate(Date reviewDate) {
+        this.reviewDate = reviewDate;
     }
 
-    public int getMovieId() {
-        return movieId;
+    public User getUser() {
+        return user;
     }
 
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

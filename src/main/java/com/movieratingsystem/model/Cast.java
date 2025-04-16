@@ -1,47 +1,50 @@
+package com.movieratingsystem.model;
 import java.util.Date;
 
 public class Cast {
 
-    private int CastId;
-    private String Cast_name;
-    private Date birth_date;
+    private int castId;
+    private String castName;
+    private Date birthDate;
     private String biography;
     private String photo;
     private String gender;
-    private String char_name;
+    private String charName;
+    private Movie movie;
 
-    public Cast(int castId, String cast_name, Date birth_date, String biography, String photo, String gender, String char_name) {
-        CastId = castId;
-        Cast_name = cast_name;
-        this.birth_date = birth_date;
+    public Cast(int castId, String castName, Date birthDate, String biography, String photo, String gender, String charName, Movie movie) {
+        this.castId = castId;
+        this.castName = castName;
+        this.birthDate = birthDate;
         this.biography = biography;
         this.photo = photo;
         this.gender = gender;
-        this.char_name = char_name;
+        this.charName = charName;
+        this.movie = movie;
     }
 
     public int getCastId() {
-        return CastId;
+        return castId;
     }
 
     public void setCastId(int castId) {
-        CastId = castId;
+        this.castId = castId;
     }
 
-    public String getCast_name() {
-        return Cast_name;
+    public String getCastName() {
+        return castName;
     }
 
-    public void setCast_name(String cast_name) {
-        Cast_name = cast_name;
+    public void setCastName(String castName) {
+        this.castName = castName;
     }
 
-    public Date getBirth_date() {
-        return birth_date;
+    public Date getBirthDate() {
+        return birthDate;
     }
 
-    public void setBirth_date(Date birth_date) {
-        this.birth_date = birth_date;
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
     }
 
     public String getBiography() {
@@ -68,11 +71,19 @@ public class Cast {
         this.gender = gender;
     }
 
-    public String getChar_name() {
-        return char_name;
+    public String getCharName() {
+        return charName;
     }
 
-    public void setChar_name(String char_name) {
-        this.char_name = char_name;
+    public void setCharName(String charName) {
+        this.charName = charName;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }

@@ -1,1 +1,1 @@
-# Movie-rating-system
+# model.com.movieratingsystem.Movie-rating-system

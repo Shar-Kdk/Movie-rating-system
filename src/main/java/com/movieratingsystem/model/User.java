@@ -1,3 +1,5 @@
+package com.movieratingsystem.model;
+
 import java.util.Date;
 
 public class User {
@@ -7,32 +9,17 @@ public class User {
     private String email;
     private String password;
     private String role;
-    private String userAvatar;
-    private int watchID;
+    private String profilePic;
+    private String bio;
 
-    public User(int userId, String username, String email, String password, Date registerDate, int roleId, String userAvatar) {
+    public User(int userId, String username, String email, String password, String role, String profilePic, String bio) {
         this.userId = userId;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.role = "user";
-        this.userAvatar = userAvatar;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
         this.role = role;
-    }
-
-    public int getWatchID() {
-        return watchID;
-    }
-
-    public void setWatchID(int watchID) {
-        this.watchID = watchID;
+        this.profilePic = profilePic;
+        this.bio = bio;
     }
 
     public int getUserId() {
@@ -67,12 +54,27 @@ public class User {
         this.password = password;
     }
 
-
-    public String getUserAvatar() {
-        return userAvatar;
+    public String getRole() {
+        return role;
     }
 
-    public void setUserAvatar(String userAvatar) {
-        this.userAvatar = userAvatar;
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
     }
 }

@@ -1,3 +1,5 @@
+package com.movieratingsystem.model;
+
 import java.util.Date;
 
 public class Movie {
@@ -5,15 +7,15 @@ public class Movie {
     private int movieId;
     private String title;
     private Date releaseDate;
-    private int duration; // in minute
-    private String movieImg;
+    private String image;
+    private int minutes;
 
-    public Movie(int movieId, String title, Date releaseDate, int duration, String movieImg) {
+    public Movie(int movieId, String title, Date releaseDate, String image, int minutes) {
         this.movieId = movieId;
         this.title = title;
         this.releaseDate = releaseDate;
-        this.duration = duration;
-        this.movieImg = movieImg;
+        this.image = image;
+        this.minutes = minutes;
     }
 
     public int getMovieId() {
@@ -40,19 +42,19 @@ public class Movie {
         this.releaseDate = releaseDate;
     }
 
-    public int getDuration() {
-        return duration;
+    public String getImage() {
+        return image;
     }
 
-    public void setDuration(int duration) {
-        this.duration = duration;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public String getMovieImg() {
-        return movieImg;
+    public int getMinutes() {
+        return minutes;
     }
 
-    public void setMovieImg(String movieImg) {
-        this.movieImg = movieImg;
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
     }
 }

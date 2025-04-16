@@ -1,12 +1,16 @@
+package com.movieratingsystem.model;
+
 public class Genre {
     private int genreId;
     private String genreName;
-    private int movieId; // foreign key
+    private String description;
+    private Movie movie;
 
-    public Genre(int genreId, String genreName, int movieId) {
+    public Genre(int genreId, String genreName, String description, Movie movie) {
         this.genreId = genreId;
         this.genreName = genreName;
-        this.movieId = movieId;
+        this.description = description;
+        this.movie = movie;
     }
 
     public int getGenreId() {
@@ -25,11 +29,19 @@ public class Genre {
         this.genreName = genreName;
     }
 
-    public int getMovieId() {
-        return movieId;
+    public String getDescription() {
+        return description;
     }
 
-    public void setMovieId(int movieId) {
-        this.movieId = movieId;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 }
