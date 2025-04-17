@@ -114,6 +114,47 @@ public class MovieDAO {
         return 0.0;
     }
 
+    public List<Movie> searchByTitle(String keyword) throws Exception {
+        return findByTitle(keyword);
+    }
+
+    public List<Movie> findTopRated(int limit) throws Exception {
+        List<Movie> movies = new ArrayList<>();
+        String sql = """
+            SELECT m.*, AVG(r.rating) as avg_rating 
+            FROM Movie m 
+            LEFT JOIN Rating r ON m.Movie_ID = r.movie_id 
+            GROUP BY m.Movie_ID 
+            ORDER BY avg_rating DESC NULLS LAST 
+            LIMIT ?
+            """;
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, limit);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    movies.add(extractMovieFromResultSet(rs));
+                }
+            }
+        }
+        return movies;
+    }
+
+    public List<Movie> findRecent(int limit) throws Exception {
+        List<Movie> movies = new ArrayList<>();
+        String sql = "SELECT * FROM Movie ORDER BY release_date DESC LIMIT ?";
+        try (Connection conn = DatabaseUtil.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, limit);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    movies.add(extractMovieFromResultSet(rs));
+                }
+            }
+        }
+        return movies;
+    }
+
     private Movie extractMovieFromResultSet(ResultSet rs) throws SQLException {
         return new Movie(
             rs.getInt("Movie_ID"),
