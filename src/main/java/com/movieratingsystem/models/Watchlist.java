@@ -1,37 +1,54 @@
-package com.movieratingsystem.model;
+package com.movieratingsystem.models;
 
-public class Watchlist {
-    private int watchId;
+import java.io.Serializable;
+import java.util.Date;
+
+public class Watchlist implements Serializable {
+    private int watchlistId;
+    private UserModel user;
     private Movie movie;
-    private User user;
-
-    public Watchlist(int watchId, Movie movie, User user) {
-        this.watchId = watchId;
+    private Date addedDate;
+    
+    public Watchlist() {
+    }
+    
+    public Watchlist(int watchlistId, UserModel user, Movie movie, Date addedDate) {
+        this.watchlistId = watchlistId;
+        this.user = user;
         this.movie = movie;
+        this.addedDate = addedDate;
+    }
+    
+    // Getters and Setters
+    public int getWatchlistId() {
+        return watchlistId;
+    }
+    
+    public void setWatchlistId(int watchlistId) {
+        this.watchlistId = watchlistId;
+    }
+    
+    public UserModel getUser() {
+        return user;
+    }
+    
+    public void setUser(UserModel user) {
         this.user = user;
     }
-
-    public int getWatchId() {
-        return watchId;
-    }
-
-    public void setWatchId(int watchId) {
-        this.watchId = watchId;
-    }
-
+    
     public Movie getMovie() {
         return movie;
     }
-
+    
     public void setMovie(Movie movie) {
         this.movie = movie;
     }
-
-    public User getUser() {
-        return user;
+    
+    public Date getAddedDate() {
+        return addedDate;
     }
-
-    public void setUser(User user) {
-        this.user = user;
+    
+    public void setAddedDate(Date addedDate) {
+        this.addedDate = addedDate;
     }
 }

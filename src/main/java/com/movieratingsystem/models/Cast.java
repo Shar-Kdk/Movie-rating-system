@@ -1,89 +1,94 @@
-package com.movieratingsystem.model;
+package com.movieratingsystem.models;
+
+import java.io.Serializable;
 import java.util.Date;
 
-public class Cast {
-
+public class Cast implements Serializable {
     private int castId;
     private String castName;
     private Date birthDate;
-    private String biography;
-    private String photo;
     private String gender;
-    private String charName;
+    private String biography;
+    private byte[] photo;
     private Movie movie;
-
-    public Cast(int castId, String castName, Date birthDate, String biography, String photo, String gender, String charName, Movie movie) {
+    private String charName;
+    
+    public Cast() {
+    }
+    
+    public Cast(int castId, String castName, Date birthDate, String gender, String biography, byte[] photo, Movie movie, String charName) {
         this.castId = castId;
         this.castName = castName;
         this.birthDate = birthDate;
+        this.gender = gender;
         this.biography = biography;
         this.photo = photo;
-        this.gender = gender;
-        this.charName = charName;
         this.movie = movie;
+        this.charName = charName;
     }
-
+    
+    // Getters and Setters
     public int getCastId() {
         return castId;
     }
-
+    
     public void setCastId(int castId) {
         this.castId = castId;
     }
-
+    
     public String getCastName() {
         return castName;
     }
-
+    
     public void setCastName(String castName) {
         this.castName = castName;
     }
-
+    
     public Date getBirthDate() {
         return birthDate;
     }
-
+    
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
     }
-
-    public String getBiography() {
-        return biography;
-    }
-
-    public void setBiography(String biography) {
-        this.biography = biography;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
-    }
-
+    
     public String getGender() {
         return gender;
     }
-
+    
     public void setGender(String gender) {
         this.gender = gender;
     }
-
-    public String getCharName() {
-        return charName;
+    
+    public String getBiography() {
+        return biography;
     }
-
-    public void setCharName(String charName) {
-        this.charName = charName;
+    
+    public void setBiography(String biography) {
+        this.biography = biography;
     }
-
+    
+    public byte[] getPhoto() {
+        return photo;
+    }
+    
+    public void setPhoto(byte[] photo) {
+        this.photo = photo;
+    }
+    
     public Movie getMovie() {
         return movie;
     }
-
+    
     public void setMovie(Movie movie) {
         this.movie = movie;
+    }
+    
+    public String getCharName() {
+        return charName;
+    }
+    
+    public void setCharName(String charName) {
+        this.charName = charName;
     }
 }
