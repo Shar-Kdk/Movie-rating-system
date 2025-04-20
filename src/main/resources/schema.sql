@@ -1,3 +1,8 @@
+CREATE DATABASE IF NOT EXISTS movieratingdatabase;
+
+USE movieratingdatabase;
+
+
 create table genres
 (
     genre_id    int auto_increment
