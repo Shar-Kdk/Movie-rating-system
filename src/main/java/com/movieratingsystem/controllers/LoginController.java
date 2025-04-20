@@ -5,10 +5,7 @@ import com.movieratingsystem.service.UserService;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.*;
 
 @WebServlet(name = "LoginController", urlPatterns = {"/login"})
 public class LoginController extends HttpServlet {
@@ -39,26 +36,23 @@ public class LoginController extends HttpServlet {
         String email = request.getParameter("email");
         String password = request.getParameter("password");
 
-        // Validate input
-        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
-            request.setAttribute("error", "Email and password are required");
-            request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
-            return;
-        }
-
-        // Authenticate user
         UserModel user = userService.authenticateUser(email, password);
 
         if (user != null) {
-            // Create session and store user
+            // Create session
             HttpSession session = request.getSession();
             session.setAttribute("user", user);
 
-            // Redirect to home page
+            // Create cookie to store user email (or ID)
+            Cookie userCookie = new Cookie("userEmail", user.getEmail());
+            userCookie.setMaxAge(60 * 60 * 24 * 7); // 1 week
+            response.addCookie(userCookie);
+
             response.sendRedirect(request.getContextPath() + "/");
         } else {
             request.setAttribute("error", "Invalid email or password");
             request.getRequestDispatcher("/WEB-INF/views/login.jsp").forward(request, response);
         }
     }
+
 }
