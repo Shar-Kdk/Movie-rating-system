@@ -21,10 +21,23 @@ public class LogoutController extends HttpServlet {
         }
 
         // Delete the userEmail cookie
-        Cookie userCookie = new Cookie("userEmail", "");
-        userCookie.setMaxAge(0); // Deletes the cookie
-        userCookie.setPath("/"); // Important: matches the path where the cookie was originally set
-        response.addCookie(userCookie);
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("userEmail".equals(cookie.getName())) {
+                    cookie.setValue("");
+                    cookie.setPath("/"); // Must match the path set when creating the cookie
+                    cookie.setMaxAge(0); // This tells the browser to delete the cookie immediately
+                    response.addCookie(cookie);
+                    break; // Once we've found and modified the cookie, we can stop looking
+                }
+            }
+        }
+
+        // For browsers that might cache redirects
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
 
         // Redirect to home page
         response.sendRedirect(request.getContextPath() + "/");

@@ -105,10 +105,7 @@ import="com.movieratingsystem.models.UserModel" %> <% UserModel currentUser =
                       <span>Profile</span>
                     </a>
                     <div class="menu-divider"></div>
-                    <a
-                      href="${pageContext.request.contextPath}/logout"
-                      class="menu-item logout"
-                    >
+                    <a href="${pageContext.request.contextPath}/logout" class="menu-item logout">
                       <i class="fas fa-sign-out-alt"></i>
                       <span>Logout</span>
                     </a>

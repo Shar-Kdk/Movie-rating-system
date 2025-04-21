@@ -87,6 +87,21 @@
       transform: translateY(-50%);
       font-size: 16px;
     }
+
+    /* Password toggle link */
+    .password-toggle-link {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 16px;
+      color: #999;
+      text-decoration: none;
+    }
+
+    .password-toggle-link:hover {
+      color: #fff;
+    }
   </style>
 </head>
 
@@ -133,6 +148,7 @@
                   id="email"
                   name="email"
                   placeholder="Enter your email"
+                  value="<%= request.getAttribute("email") != null ? request.getAttribute("email") : "" %>"
                   required
           />
         </div>
@@ -145,19 +161,15 @@
                 <i class="fas fa-lock"></i>
               </span>
           <input
-                  type="password"
+                  type="<%= session.getAttribute("passwordVisible") != null && (Boolean)session.getAttribute("passwordVisible") ? "text" : "password" %>"
                   id="password"
                   name="password"
                   placeholder="Enter your password"
                   required
           />
-          <button
-                  type="button"
-                  class="password-toggle"
-                  onclick="togglePassword()"
-          >
-            <i class="fas fa-eye"></i>
-          </button>
+          <a href="${pageContext.request.contextPath}/login/togglePassword" class="password-toggle-link">
+            <i class="fas fa-<%= session.getAttribute("passwordVisible") != null && (Boolean)session.getAttribute("passwordVisible") ? "eye-slash" : "eye" %>"></i>
+          </a>
         </div>
       </div>
 
@@ -183,34 +195,16 @@
       </div>
 
       <div class="auth-links">
-        <a
-                href="${pageContext.request.contextPath}/register"
-                class="btn btn-outline btn-block"
+
+        href="${pageContext.request.contextPath}/register"
+        class="btn btn-outline btn-block"
         >
-          <i class="fas fa-user-plus"></i>
-          Create Account
+        <i class="fas fa-user-plus"></i>
+        Create Account
         </a>
       </div>
     </form>
   </div>
 </div>
-
-<!-- Password Toggle Script -->
-<script>
-  function togglePassword() {
-    const passwordInput = document.getElementById("password");
-    const toggleButtonIcon = document.querySelector(".password-toggle i");
-
-    if (passwordInput.type === "password") {
-      passwordInput.type = "text";
-      toggleButtonIcon.classList.remove("fa-eye");
-      toggleButtonIcon.classList.add("fa-eye-slash");
-    } else {
-      passwordInput.type = "password";
-      toggleButtonIcon.classList.remove("fa-eye-slash");
-      toggleButtonIcon.classList.add("fa-eye");
-    }
-  }
-</script>
 </body>
 </html>
