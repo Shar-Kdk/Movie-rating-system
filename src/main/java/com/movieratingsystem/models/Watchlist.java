@@ -1,5 +1,4 @@
 package com.movieratingsystem.models;
-
 import java.io.Serializable;
 import java.util.Date;
 
