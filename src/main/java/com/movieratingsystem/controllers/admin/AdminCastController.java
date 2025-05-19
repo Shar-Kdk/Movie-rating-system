@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 public class AdminCastController extends HttpServlet {
 
     private CastService castService;
+    private static final int PAGE_SIZE = 10;
 
     @Override
     public void init() throws ServletException {
@@ -41,7 +42,6 @@ public class AdminCastController extends HttpServlet {
         // Get search parameters
         String searchTerm = request.getParameter("search");
         int page = 1;
-        int pageSize = 10;
 
         try {
             String pageParam = request.getParameter("page");
@@ -55,18 +55,21 @@ public class AdminCastController extends HttpServlet {
 
         // Get cast members with pagination
         List<Cast> castList;
+        int totalPages;
+        
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            castList = castService.searchCast(searchTerm, page, pageSize);
-            request.setAttribute("totalPages", 
-                (int) Math.ceil((double) castService.getTotalSearchResults(searchTerm) / pageSize));
+            castList = castService.searchCast(searchTerm, page, PAGE_SIZE);
+            totalPages = (int) Math.ceil((double) castService.getTotalSearchResults(searchTerm) / PAGE_SIZE);
         } else {
-            castList = castService.getAllCast();
-            request.setAttribute("totalPages", 
-                (int) Math.ceil((double) castService.getTotalCast() / pageSize));
+            // Use search with empty term to get paginated results
+            castList = castService.searchCast("", page, PAGE_SIZE);
+            totalPages = (int) Math.ceil((double) castService.getTotalCast() / PAGE_SIZE);
         }
 
         request.setAttribute("castList", castList);
         request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("search", searchTerm); // Preserve search term in the view
 
         // Forward to cast list page
         request.getRequestDispatcher("/WEB-INF/views/admin/cast.jsp").forward(request, response);

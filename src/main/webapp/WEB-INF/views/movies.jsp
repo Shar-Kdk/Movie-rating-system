@@ -28,8 +28,8 @@
         
         <div class="filter-section">
             <h3>Genres</h3>
-            <div class="genre-grid">
-                <form action="${pageContext.request.contextPath}/movies" method="get" class="filter-form">
+            <form action="${pageContext.request.contextPath}/movies" method="get" class="filter-form">
+                <div class="genre-grid">
                     <% 
                         List<Genre> genres = (List<Genre>) request.getAttribute("genres");
                         if(genres != null && !genres.isEmpty()) {
@@ -46,10 +46,9 @@
                     %>
                         <p>No genres available.</p>
                     <% } %>
-                    
-                    <button type="submit" class="btn">Apply Filters</button>
-                </form>
-            </div>
+                </div>
+                <button type="submit" class="filter-submit-btn">Apply Filters</button>
+            </form>
         </div>
         
         <div class="filter-section">

@@ -98,20 +98,22 @@
         <% 
             int currentPage = request.getAttribute("currentPage") != null ? (int) request.getAttribute("currentPage") : 1;
             int totalPages = request.getAttribute("totalPages") != null ? (int) request.getAttribute("totalPages") : 1;
+            String searchTerm = (String) request.getAttribute("search");
+            String searchParam = searchTerm != null && !searchTerm.isEmpty() ? "&search=" + searchTerm : "";
             
             if(totalPages > 1) {
         %>
             <ul>
                 <% if(currentPage > 1) { %>
-                    <li><a href="${pageContext.request.contextPath}/admin/cast?page=<%= currentPage - 1 %>" class="pagination-link">&laquo; Previous</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/cast?page=<%= currentPage - 1 %><%= searchParam %>" class="pagination-link">&laquo; Previous</a></li>
                 <% } %>
                 
                 <% for(int i = 1; i <= totalPages; i++) { %>
-                    <li><a href="${pageContext.request.contextPath}/admin/cast?page=<%= i %>" class="pagination-link <%= i == currentPage ? "active" : "" %>"><%= i %></a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/cast?page=<%= i %><%= searchParam %>" class="pagination-link <%= i == currentPage ? "active" : "" %>"><%= i %></a></li>
                 <% } %>
                 
                 <% if(currentPage < totalPages) { %>
-                    <li><a href="${pageContext.request.contextPath}/admin/cast?page=<%= currentPage + 1 %>" class="pagination-link">Next &raquo;</a></li>
+                    <li><a href="${pageContext.request.contextPath}/admin/cast?page=<%= currentPage + 1 %><%= searchParam %>" class="pagination-link">Next &raquo;</a></li>
                 <% } %>
             </ul>
         <% } %>

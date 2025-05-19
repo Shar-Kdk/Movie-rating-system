@@ -80,15 +80,10 @@ public class AdminAddCastController extends HttpServlet {
         String birthDateStr = request.getParameter("birthDate");
         String gender = request.getParameter("gender");
         String biography = request.getParameter("biography");
-        String movieIdStr = request.getParameter("movieId");
-        String charName = request.getParameter("charName");
 
         // Validate input
-        if (castName == null || castName.trim().isEmpty() ||
-            movieIdStr == null || movieIdStr.trim().isEmpty() ||
-            charName == null || charName.trim().isEmpty()) {
-            
-            request.setAttribute("error", "Cast name, movie, and character name are required");
+        if (castName == null || castName.trim().isEmpty()) {
+            request.setAttribute("error", "Cast name is required");
             List<Movie> movies = movieService.getAllMovies();
             request.setAttribute("movies", movies);
             request.getRequestDispatcher("/WEB-INF/views/admin/add-cast.jsp").forward(request, response);
@@ -107,15 +102,6 @@ public class AdminAddCastController extends HttpServlet {
             
             cast.setGender(gender);
             cast.setBiography(biography != null ? biography.trim() : null);
-            cast.setCharName(charName.trim());
-
-            // Set movie
-            int movieId = Integer.parseInt(movieIdStr);
-            Movie movie = movieService.getMovieById(movieId);
-            if (movie == null) {
-                throw new ServletException("Invalid movie ID");
-            }
-            cast.setMovie(movie);
 
             // Handle photo upload
             Part filePart = request.getPart("photo");
@@ -126,20 +112,58 @@ public class AdminAddCastController extends HttpServlet {
                 cast.setPhoto(photoBytes);
             }
 
-            // Add cast
-            boolean success = castService.addCast(cast);
+            // Get all movie roles
+            boolean hasValidRole = false;
+            String[] movieIds = request.getParameterValues("movieId[]");
+            String[] charNames = request.getParameterValues("charName[]");
+            
+            if (movieIds != null && charNames != null && movieIds.length == charNames.length) {
+                for (int i = 0; i < movieIds.length; i++) {
+                    String movieIdStr = movieIds[i];
+                    String charName = charNames[i];
+                    
+                    if (!movieIdStr.trim().isEmpty() && !charName.trim().isEmpty()) {
+                        hasValidRole = true;
+                        int movieId = Integer.parseInt(movieIdStr);
+                        Movie movie = movieService.getMovieById(movieId);
+                        if (movie == null) {
+                            throw new ServletException("Invalid movie ID");
+                        }
+                        
+                        // Create a new cast object for each role
+                        Cast castRole = new Cast();
+                        castRole.setCastName(cast.getCastName());
+                        castRole.setBirthDate(cast.getBirthDate());
+                        castRole.setGender(cast.getGender());
+                        castRole.setBiography(cast.getBiography());
+                        castRole.setPhoto(cast.getPhoto());
+                        castRole.setMovie(movie);
+                        castRole.setCharName(charName.trim());
+                        
+                        if (!castService.addCast(castRole)) {
+                            throw new ServletException("Failed to add cast member for movie: " + movie.getTitle());
+                        }
+                    }
+                }
+            }
 
-            if (success) {
-                response.sendRedirect(request.getContextPath() + "/admin/cast?success=Cast member added successfully");
-            } else {
-                request.setAttribute("error", "Failed to add cast member");
+            if (!hasValidRole) {
+                request.setAttribute("error", "At least one movie role is required");
                 List<Movie> movies = movieService.getAllMovies();
                 request.setAttribute("movies", movies);
                 request.getRequestDispatcher("/WEB-INF/views/admin/add-cast.jsp").forward(request, response);
+                return;
             }
+
+            response.sendRedirect(request.getContextPath() + "/admin/cast?success=Cast member added successfully");
 
         } catch (ParseException | NumberFormatException e) {
             request.setAttribute("error", "Invalid input format");
+            List<Movie> movies = movieService.getAllMovies();
+            request.setAttribute("movies", movies);
+            request.getRequestDispatcher("/WEB-INF/views/admin/add-cast.jsp").forward(request, response);
+        } catch (ServletException e) {
+            request.setAttribute("error", e.getMessage());
             List<Movie> movies = movieService.getAllMovies();
             request.setAttribute("movies", movies);
             request.getRequestDispatcher("/WEB-INF/views/admin/add-cast.jsp").forward(request, response);

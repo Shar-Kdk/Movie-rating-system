@@ -56,26 +56,45 @@ response.sendRedirect(request.getContextPath() + "/login"); return; } List<Movie
           <input type="file" id="photo" name="photo" accept="image/*" />
         </div>
 
-        <div class="form-group">
-          <label for="movieId">Movie</label>
-          <select id="movieId" name="movieId" required>
-            <option value="">Select Movie</option>
-            <% if(movies != null && !movies.isEmpty()) { for(Movie movie :
-            movies) { %>
-            <option value="<%= movie.getMovieId() %>">
-              <%= movie.getTitle() %>
-            </option>
-            <% } } %>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="charName">Character Name</label>
-          <input type="text" id="charName" name="charName" required />
+        <div class="movie-roles-container">
+          <h3>Movie Roles</h3>
+          <div id="movieRoles">
+            <div class="movie-role-entry">
+              <div class="form-group">
+                <label for="movieId_0">Movie</label>
+                <select id="movieId_0" name="movieId[]" required>
+                  <option value="">Select Movie</option>
+                  <% if(movies != null && !movies.isEmpty()) { for(Movie movie :
+                  movies) { %>
+                  <option value="<%= movie.getMovieId() %>">
+                    <%= movie.getTitle() %>
+                  </option>
+                  <% } } %>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="charName_0">Character Name</label>
+                <input type="text" id="charName_0" name="charName[]" required />
+              </div>
+            </div>
+          </div>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="addMovieRole()"
+          >
+            Add Another Movie Role
+          </button>
         </div>
 
         <div class="form-actions">
-          <button type="submit" class="btn btn-primary">Add Cast Member</button>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            onclick="return validateAndSubmitForm(event)"
+          >
+            Add Cast Member
+          </button>
           <a
             href="${pageContext.request.contextPath}/admin/cast"
             class="btn btn-secondary"
@@ -84,6 +103,79 @@ response.sendRedirect(request.getContextPath() + "/login"); return; } List<Movie
         </div>
       </form>
     </div>
+
+    <style>
+      .movie-role-entry {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+        position: relative;
+      }
+      .remove-role-btn {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #ff4444;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+      }
+      .movie-roles-container {
+        margin: 20px 0;
+      }
+    </style>
+
+    <script>
+      function addMovieRole() {
+        const container = document.getElementById("movieRoles");
+        const newEntry = document.createElement("div");
+        newEntry.className = "movie-role-entry";
+
+        newEntry.innerHTML = `
+            <button type="button" class="remove-role-btn" onclick="this.parentElement.remove()">Remove</button>
+            <div class="form-group">
+                <label for="movieId_${container.children.length}">Movie</label>
+                <select id="movieId_${container.children.length}" name="movieId[]" required>
+                    <option value="">Select Movie</option>
+                    <% if(movies != null && !movies.isEmpty()) { 
+                        for(Movie movie : movies) { %>
+                        <option value="<%= movie.getMovieId() %>">
+                            <%= movie.getTitle() %>
+                        </option>
+                    <% } } %>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="charName_${container.children.length}">Character Name</label>
+                <input type="text" id="charName_${container.children.length}" name="charName[]" required />
+            </div>
+        `;
+
+        container.appendChild(newEntry);
+      }
+
+      function validateAndSubmitForm(event) {
+        const container = document.getElementById("movieRoles");
+        const entries = container.getElementsByClassName("movie-role-entry");
+
+        for (let i = 0; i < entries.length; i++) {
+          const entry = entries[i];
+          const movieSelect = entry.querySelector("select");
+          const charInput = entry.querySelector("input");
+
+          if (!movieSelect.value || !charInput.value) {
+            event.preventDefault();
+            alert("Please fill in all movie and character name fields");
+            return false;
+          }
+        }
+
+        return true;
+      }
+    </script>
 
     <jsp:include page="../includes/footer.jsp" /> </Movie
 ></Movie>

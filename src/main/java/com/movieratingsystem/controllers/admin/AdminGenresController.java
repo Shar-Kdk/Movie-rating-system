@@ -16,6 +16,7 @@ import jakarta.servlet.http.HttpSession;
 public class AdminGenresController extends HttpServlet {
 
     private GenreService genreService;
+    private static final int PAGE_SIZE = 10;
 
     @Override
     public void init() throws ServletException {
@@ -41,7 +42,6 @@ public class AdminGenresController extends HttpServlet {
         // Get search parameters
         String searchTerm = request.getParameter("search");
         int page = 1;
-        int pageSize = 10;
 
         try {
             String pageParam = request.getParameter("page");
@@ -55,18 +55,21 @@ public class AdminGenresController extends HttpServlet {
 
         // Get genres with pagination
         List<Genre> genres;
+        int totalPages;
+        
         if (searchTerm != null && !searchTerm.trim().isEmpty()) {
-            genres = genreService.searchGenres(searchTerm, page, pageSize);
-            request.setAttribute("totalPages", 
-                (int) Math.ceil((double) genreService.getTotalSearchResults(searchTerm) / pageSize));
+            genres = genreService.searchGenres(searchTerm, page, PAGE_SIZE);
+            totalPages = (int) Math.ceil((double) genreService.getTotalSearchResults(searchTerm) / PAGE_SIZE);
         } else {
-            genres = genreService.getAllGenres();
-            request.setAttribute("totalPages", 
-                (int) Math.ceil((double) genreService.getTotalGenres() / pageSize));
+            // Use search with empty term to get paginated results
+            genres = genreService.searchGenres("", page, PAGE_SIZE);
+            totalPages = (int) Math.ceil((double) genreService.getTotalGenres() / PAGE_SIZE);
         }
 
         request.setAttribute("genres", genres);
         request.setAttribute("currentPage", page);
+        request.setAttribute("totalPages", totalPages);
+        request.setAttribute("search", searchTerm); // Preserve search term in the view
 
         // Forward to genres page
         request.getRequestDispatcher("/WEB-INF/views/admin/genres.jsp").forward(request, response);
