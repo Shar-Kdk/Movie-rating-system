@@ -100,6 +100,36 @@ response.sendRedirect(request.getContextPath() + "/login"); return; } List<Genre
 
     <jsp:include page="../includes/footer.jsp" />
 
+    <style>
+      .checkbox-group-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    max-height: 150px;
+    overflow-y: auto;
+
+    padding: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.07);
+
+    align-content: start;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+/* Chrome, Safari, and Opera */
+.checkbox-group-container::-webkit-scrollbar {
+    display: none;
+}
+
+    </style>
+
     <script>
       // Add JavaScript to update file input label
       document
